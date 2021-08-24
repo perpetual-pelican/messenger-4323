@@ -1,3 +1,5 @@
+import convoSort from "./convoSort";
+
 export const addMessageToStore = (state, payload) => {
   const { message, sender } = payload;
   // if sender isn't null, that means the message needs to be put in a brand new convo
@@ -20,7 +22,7 @@ export const addMessageToStore = (state, payload) => {
     } else {
       return convo;
     }
-  });
+  }).sort(convoSort);
 };
 
 export const addOnlineUserToStore = (state, id) => {
@@ -78,5 +80,5 @@ export const addNewConvoToStore = (state, recipientId, message) => {
     } else {
       return convo;
     }
-  });
+  }).sort(convoSort);
 };
