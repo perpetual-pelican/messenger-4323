@@ -10,6 +10,7 @@ export const addMessageToStore = (state, payload) => {
       messages: [message],
     };
     newConvo.latestMessageText = message.text;
+    newConvo.unreadMessageCount = 1;
     return [newConvo, ...state];
   }
 
@@ -18,11 +19,31 @@ export const addMessageToStore = (state, payload) => {
       const convoCopy = { ...convo };
       convoCopy.messages.push(message);
       convoCopy.latestMessageText = message.text;
+      if (message.senderId === convoCopy.otherUser.id){
+        convoCopy.unreadMessageCount++;
+      }
       return convoCopy;
     } else {
       return convo;
     }
   }).sort(convoSort);
+};
+
+export const markConvoReadInStore = (state, id) => {
+  return state.map((convo) => {
+    if (convo.id === id) {
+      const convoCopy = { ...convo };
+      convoCopy.messages.forEach((message) => {
+        if (message.senderId === convoCopy.otherUser.id && !message.wasRead) {
+          message.wasRead = true;
+        }
+      });
+      convoCopy.unreadMessageCount = 0;
+      return convoCopy;
+    } else {
+      return convo;
+    }
+  });
 };
 
 export const addOnlineUserToStore = (state, id) => {
@@ -76,6 +97,7 @@ export const addNewConvoToStore = (state, recipientId, message) => {
       convoCopy.id = message.conversationId;
       convoCopy.messages.push(message);
       convoCopy.latestMessageText = message.text;
+      convoCopy.unreadMessageCount = 0;
       return convoCopy;
     } else {
       return convo;
