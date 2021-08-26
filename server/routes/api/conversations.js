@@ -70,10 +70,56 @@ router.get("/", async (req, res, next) => {
       // set properties for notification count and latest message preview
       convoJSON.latestMessageText =
         convoJSON.messages[convoJSON.messages.length - 1].text;
+      
+      convoJSON.unreadMessageCount = convoJSON.messages.filter((message) => 
+        message.senderId === convoJSON.otherUser.id &&
+        message.wasRead === false
+      ).length;
+
       conversations[i] = convoJSON;
     }
 
     res.json(conversations);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// update wasRead to true for all messages belonging to conversation with id
+// only update messages where the sender is not the current user
+router.put("/:id", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
+    const userId = req.user.id;
+    const conversationId = req.params.id;
+    const conversation = await Conversation.findByPk(conversationId, {
+      include: [
+        {
+          model: Message,
+          where: {
+            [Op.and]: {
+              senderId: {
+                [Op.not]: userId,
+              },
+              wasRead: false,
+            },
+          },
+        },
+      ]
+    });
+    if (!conversation) return res.status(200);
+  
+    const promisedMessages = conversation.messages.map((message) => {
+      return message.update({ wasRead: true });
+    });
+    await Promise.all(promisedMessages);
+
+    const convoJSON = conversation.toJSON();
+    convoJSON.unreadMessageCount = 0;
+
+    res.json(convoJSON);
   } catch (error) {
     next(error);
   }
