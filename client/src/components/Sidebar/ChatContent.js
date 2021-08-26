@@ -1,6 +1,19 @@
 import React from "react";
-import { Box, Typography } from "@material-ui/core";
+import { Avatar, Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+
+const unreadCountBaseStyle = {
+  marginTop: 10,
+  marginRight: 20,
+  height: 20,
+  borderRadius: 10,
+  background: "#3F92FF",
+  fontFamily: "Open Sans",
+  fontSize: 10,
+  fontWeight: 700,
+  lineHeight: 14,
+  letterSpacing: -0.5,
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,13 +31,23 @@ const useStyles = makeStyles((theme) => ({
     color: "#9CADC8",
     letterSpacing: -0.17,
   },
+  unreadCount: {
+    width: 20,
+    ...unreadCountBaseStyle
+  },
+  unreadCountWide: {
+    width: 30,
+    ...unreadCountBaseStyle
+  }
 }));
 
 const ChatContent = (props) => {
   const classes = useStyles();
 
   const { conversation } = props;
-  const { latestMessageText, otherUser } = conversation;
+  const { latestMessageText, otherUser, unreadMessageCount } = conversation;
+  const unreadCountClass =
+    unreadMessageCount > 9 ? classes.unreadCountWide : classes.unreadCount;
 
   return (
     <Box className={classes.root}>
@@ -36,6 +59,12 @@ const ChatContent = (props) => {
           {latestMessageText}
         </Typography>
       </Box>
+      {unreadMessageCount ?
+        <Avatar className={unreadCountClass}>
+          {unreadMessageCount}
+        </Avatar>
+        : null
+      }
     </Box>
   );
 };
