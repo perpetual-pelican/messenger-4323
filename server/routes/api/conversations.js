@@ -109,7 +109,7 @@ router.put("/:id", async (req, res, next) => {
         },
       ]
     });
-    if (!conversation) return res.status(200);
+    if (!conversation) return res.sendStatus(404);
   
     const promisedMessages = conversation.messages.map((message) => {
       return message.update({ wasRead: true });
@@ -117,7 +117,6 @@ router.put("/:id", async (req, res, next) => {
     await Promise.all(promisedMessages);
 
     const convoJSON = conversation.toJSON();
-    convoJSON.unreadMessageCount = 0;
 
     res.json(convoJSON);
   } catch (error) {
