@@ -81,10 +81,8 @@ export const fetchConversations = () => async (dispatch) => {
 
 export const putConversationRead = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.put(`/api/conversations/read/${id}`);
-    if (data) {
-      dispatch(markConversationRead(data.id));
-    }
+    await axios.put(`/api/conversations/read/${id}`);
+    dispatch(markConversationRead(id));
   } catch (error) {
     console.error(error);
   }

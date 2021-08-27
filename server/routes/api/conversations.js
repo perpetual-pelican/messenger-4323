@@ -125,9 +125,7 @@ router.put("/read/:id", async (req, res, next) => {
     });
     await Promise.all(promisedMessages);
 
-    const convoJSON = conversation.toJSON();
-
-    res.json(convoJSON);
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }
