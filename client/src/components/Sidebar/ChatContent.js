@@ -8,9 +8,8 @@ const unreadCountBaseStyle = {
   height: 20,
   borderRadius: 10,
   background: "#3A8DFF",
-  fontFamily: "OpenSans",
+  fontFamily: "OpenSans-semibold",
   fontSize: 10,
-  fontWeight: 700,
   letterSpacing: -0.5,
 };
 
