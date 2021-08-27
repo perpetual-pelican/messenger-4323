@@ -11,7 +11,6 @@ const unreadCountBaseStyle = {
   fontFamily: "OpenSans",
   fontSize: 10,
   fontWeight: 700,
-  lineHeight: 14,
   letterSpacing: -0.5,
 };
 
