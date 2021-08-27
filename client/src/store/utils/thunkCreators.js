@@ -81,7 +81,7 @@ export const fetchConversations = () => async (dispatch) => {
 
 export const putConversationRead = (id) => async (dispatch) => {
   try {
-    const { data } = await axios.put(`/api/conversations/${id}`);
+    const { data } = await axios.put(`/api/conversations/read/${id}`);
     if (data) {
       dispatch(markConversationRead(data.id));
     }

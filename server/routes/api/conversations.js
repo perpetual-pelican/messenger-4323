@@ -87,7 +87,7 @@ router.get("/", async (req, res, next) => {
 
 // update wasRead to true for all messages belonging to conversation with id
 // only update messages where the sender is not the current user
-router.put("/:id", async (req, res, next) => {
+router.put("/read/:id", async (req, res, next) => {
   try {
     if (!req.user) {
       return res.sendStatus(401);
