@@ -94,7 +94,16 @@ router.put("/read/:id", async (req, res, next) => {
     }
     const userId = req.user.id;
     const conversationId = req.params.id;
-    const conversation = await Conversation.findByPk(conversationId, {
+    const conversation = await Conversation.findOne({
+      where: {
+        [Op.and]: {
+          id: conversationId,
+          [Op.or]: {
+            user1Id: userId,
+            user2Id: userId,
+          },
+        },
+      },
       include: [
         {
           model: Message,
