@@ -2,17 +2,6 @@ import React from "react";
 import { Avatar, Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-const unreadCountBaseStyle = {
-  marginTop: 10,
-  marginRight: 20,
-  height: 20,
-  borderRadius: 10,
-  background: "#3A8DFF",
-  fontFamily: "OpenSans-semibold",
-  fontSize: 10,
-  letterSpacing: -0.5,
-};
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -30,12 +19,18 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: -0.17,
   },
   unreadCount: {
-    width: 20,
-    ...unreadCountBaseStyle
+    width: theme.spacing(2),
+    height: theme.spacing(2),
+    borderRadius: theme.spacing(1),
+    margin: theme.spacing(1, 2, "auto", "auto"),
+    background: theme.palette.primary.main,
   },
   unreadCountWide: {
-    width: 30,
-    ...unreadCountBaseStyle
+    width: theme.spacing(3),
+    height: theme.spacing(2),
+    borderRadius: theme.spacing(1),
+    margin: theme.spacing(1, 2, "auto", "auto"),
+    background: theme.palette.primary.main,
   }
 }));
 
@@ -59,7 +54,9 @@ const ChatContent = (props) => {
       </Box>
       {unreadMessageCount ?
         <Avatar className={unreadCountClass}>
-          {unreadMessageCount}
+          <Typography variant="caption">
+            {unreadMessageCount}
+          </Typography>
         </Avatar>
         : null
       }
