@@ -18,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
     color: "#9CADC8",
     letterSpacing: -0.17,
   },
+  unreadCountText: {
+    fontSize: 10,
+    fontWeight: 600
+  },
   unreadCount: {
     width: theme.spacing(2),
     height: theme.spacing(2),
@@ -54,7 +58,7 @@ const ChatContent = (props) => {
       </Box>
       {unreadMessageCount ?
         <Avatar className={unreadCountClass}>
-          <Typography variant="caption">
+          <Typography className={classes.unreadCountText}>
             {unreadMessageCount}
           </Typography>
         </Avatar>
