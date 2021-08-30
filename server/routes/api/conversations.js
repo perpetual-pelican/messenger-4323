@@ -103,16 +103,7 @@ router.put("/read/:id", async (req, res, next) => {
     }
     const userId = req.user.id;
     const conversationId = req.params.id;
-    const conversation = await Conversation.findOne({
-      where: {
-        [Op.and]: {
-          id: conversationId,
-          [Op.or]: {
-            user1Id: userId,
-            user2Id: userId,
-          },
-        },
-      },
+    const conversation = await Conversation.findByPk(conversationId, {
       include: [
         {
           model: Message,
@@ -128,11 +119,17 @@ router.put("/read/:id", async (req, res, next) => {
       ]
     });
     if (!conversation) return res.sendStatus(404);
-  
-    const promisedMessages = conversation.messages.map((message) => {
-      return message.update({ wasRead: true });
+    if (conversation.user1Id !== userId && conversation.user2Id !== userId) {
+      return res.sendStatus(403);
+    }
+
+    await Message.update({ wasRead: true }, {
+      where: {
+        conversationId,
+        senderId: { [Op.not]: userId },
+        wasRead: false 
+      }
     });
-    await Promise.all(promisedMessages);
 
     res.sendStatus(204);
   } catch (error) {
