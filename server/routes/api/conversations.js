@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const { User, Conversation, Message } = require("../../db/models");
-const { Op } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 const onlineUsers = require("../../onlineUsers");
 
 // get all conversations for a user, include latest message text for preview, and all messages
@@ -18,7 +18,19 @@ router.get("/", async (req, res, next) => {
           user2Id: userId,
         },
       },
-      attributes: ["id"],
+      attributes: [
+        "id",
+        [
+          Sequelize.literal(`(
+            SELECT COUNT(*)
+            FROM messages AS message
+            WHERE "conversationId" = conversation.id
+              AND "senderId" != ${userId}
+              AND "wasRead" = false
+          )`),
+          "unreadMessageCount"
+        ]
+      ],
       order: [[Message, "createdAt", "ASC"]],
       include: [
         { model: Message, order: ["createdAt", "ASC"] },
@@ -70,10 +82,56 @@ router.get("/", async (req, res, next) => {
       // set properties for notification count and latest message preview
       convoJSON.latestMessageText =
         convoJSON.messages[convoJSON.messages.length - 1].text;
+      
+      convoJSON.unreadMessageCount = parseInt(convoJSON.unreadMessageCount);
+
       conversations[i] = convoJSON;
     }
 
     res.json(conversations);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// update wasRead to true for all messages belonging to conversation with id
+// only update messages where the sender is not the current user
+router.put("/read/:id", async (req, res, next) => {
+  try {
+    if (!req.user) {
+      return res.sendStatus(401);
+    }
+    const userId = req.user.id;
+    const conversationId = req.params.id;
+    const conversation = await Conversation.findByPk(conversationId, {
+      include: [
+        {
+          model: Message,
+          where: {
+            [Op.and]: {
+              senderId: {
+                [Op.not]: userId,
+              },
+              wasRead: false,
+            },
+          },
+        },
+      ]
+    });
+    if (!conversation) return res.sendStatus(404);
+    if (conversation.user1Id !== userId && conversation.user2Id !== userId) {
+      return res.sendStatus(403);
+    }
+
+    await Message.update({ wasRead: true }, {
+      where: {
+        conversationId,
+        senderId: { [Op.not]: userId },
+        wasRead: false 
+      }
+    });
+
+    res.sendStatus(204);
   } catch (error) {
     next(error);
   }
