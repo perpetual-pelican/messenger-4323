@@ -44,7 +44,7 @@ const Login = (props) => {
         <FormItem>
           <TextField
             label="Password"
-            ariaLabel="password"
+            aria-label="password"
             type="password"
             name="password"/>
         </FormItem>
