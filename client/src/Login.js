@@ -37,7 +37,7 @@ const Login = (props) => {
         <FormItem>
           <TextField
             aria-label="username"
-            label="E-mail address"
+            label="Username"
             name="username"
             type="text"/>
         </FormItem>
