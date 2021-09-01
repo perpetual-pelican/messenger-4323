@@ -1,15 +1,12 @@
 import React from "react";
 import { Redirect, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import {
-  Grid,
-  Box,
-  Typography,
-  Button,
-  FormControl,
-  TextField,
-} from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { login } from "./store/utils/thunkCreators";
+import AuthTemplate from "./components/Auth/AuthTemplate";
+import SwitchPageContainer from "./components/Auth/SwitchPageContainer";
+import FormContainer from "./components/Auth/FormContainer";
+import FormItem from "./components/Auth/FormItem";
 
 const Login = (props) => {
   const history = useHistory();
@@ -28,41 +25,31 @@ const Login = (props) => {
   }
 
   return (
-    <Grid container justify="center">
-      <Box>
-        <Grid container item>
-          <Typography>Need to register?</Typography>
-          <Button onClick={() => history.push("/register")}>Register</Button>
-        </Grid>
-        <form onSubmit={handleLogin}>
-          <Grid>
-            <Grid>
-              <FormControl margin="normal" required>
-                <TextField
-                  aria-label="username"
-                  label="Username"
-                  name="username"
-                  type="text"
-                />
-              </FormControl>
-            </Grid>
-            <FormControl margin="normal" required>
-              <TextField
-                label="password"
-                aria-label="password"
-                type="password"
-                name="password"
-              />
-            </FormControl>
-            <Grid>
-              <Button type="submit" variant="contained" size="large">
-                Login
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
-    </Grid>
+    <AuthTemplate>
+      <SwitchPageContainer
+        caption="Don't have an account?"
+        buttonLabel="Create account"
+        onClick={() => history.push("/register")}/>
+      <FormContainer
+        message="Welcome back!"
+        buttonLabel="Login"
+        onSubmit={handleLogin}>
+        <FormItem>
+          <TextField
+            aria-label="username"
+            label="E-mail address"
+            name="username"
+            type="text"/>
+        </FormItem>
+        <FormItem>
+          <TextField
+            label="Password"
+            ariaLabel="password"
+            type="password"
+            name="password"/>
+        </FormItem>
+      </FormContainer>
+    </AuthTemplate>
   );
 };
 
