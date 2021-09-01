@@ -34,7 +34,7 @@ const AuthTemplate = (props) => {
 
   return (
     <Grid container className={classes.root}>
-      <Grid container xs={5} className={classes.sideBanner}>
+      <Grid container item xs={5} className={classes.sideBanner}>
         <Box className={classes.bannerContent}>
           <img src={bubbleIcon} alt=""/>
           <Typography className={classes.text}>
@@ -42,7 +42,7 @@ const AuthTemplate = (props) => {
           </Typography>
         </Box>
       </Grid>
-      <Grid container xs={7} justify="center">
+      <Grid container item xs={7} justifyContent="center">
         {props.children}
       </Grid>
     </Grid>

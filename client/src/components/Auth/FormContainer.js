@@ -34,7 +34,7 @@ const FormContainer = (props) => {
           </Typography>
         </Grid>
         {children}
-        <Grid container justify="center">
+        <Grid container justifyContent="center">
           <Button className={classes.loginButton}
             type="submit"
             variant="contained"
