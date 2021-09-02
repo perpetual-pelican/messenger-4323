@@ -8,20 +8,23 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    height: "20%"
+  },
   container: {
     marginTop: theme.spacing(2),
     alignItems: "center",
     justifyContent: "flex-end"
   },
   caption: {
-    fontSize: 12,
+    fontSize: 14,
     color: theme.palette.secondary.main
   },
   button: {
-    padding: theme.spacing(1, 2.5),
+    padding: "2% 5%",
     marginLeft: theme.spacing(2),
-    boxShadow: "0px 1px 6px lightGrey",
-    fontSize: 12,
+    boxShadow: "0px 1px 16px lightGrey",
+    fontSize: 14,
     color: theme.palette.primary.main
   }
 }));
@@ -32,7 +35,7 @@ const SwitchPageContainer = (props) => {
   const { caption, buttonLabel, onClick } = props;
 
   return (
-    <Container>
+    <Container className={classes.root}>
       <Grid container className={classes.container}>
         <Typography className={classes.caption}>
           {caption}
