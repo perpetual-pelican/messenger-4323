@@ -5,19 +5,25 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   root: {
     justifyContent: "center",
-    width: "75%"
+    alignItems: "center",
+    height: "80%"
+  },
+  form: {
+    width: "70%",
+    marginBottom: "10%"
   },
   message: {
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: 600
   },
-  loginButton: {
+  submitButton: {
     fontFamily: "Montserrat, sans-serif",
-    fontSize: 11,
+    fontSize: 16,
+    fontWeight: 500,
     boxShadow: "none",
-    padding: theme.spacing(1, 4),
-    borderRadius: theme.spacing(0.2),
-    margin: theme.spacing(3, 0)
+    padding: theme.spacing(2, 7),
+    borderRadius: theme.spacing(0.4),
+    margin: theme.spacing(4, 0)
   }
 }));
 
@@ -26,25 +32,21 @@ const FormContainer = (props) => {
   const { onSubmit, message, buttonLabel, children } = props;
 
   return (
-    <Grid className={classes.root}>
-      <form onSubmit={onSubmit}>
-        <Grid>
-          <Typography className={classes.message}>
-            {message}
-          </Typography>
-        </Grid>
-        {children}
-        <Grid container justifyContent="center">
-          <Button className={classes.loginButton}
-            type="submit"
-            variant="contained"
-            color="primary"
-            size="large">
-            {buttonLabel}
-          </Button>
-        </Grid>
-      </form>
-    </Grid>
+    <form onSubmit={onSubmit} className={classes.form}>
+      <Typography className={classes.message}>
+        {message}
+      </Typography>
+      {children}
+      <Grid container justifyContent="center">
+        <Button className={classes.submitButton}
+          type="submit"
+          variant="contained"
+          color="primary"
+          size="large">
+          {buttonLabel}
+        </Button>
+      </Grid>
+    </form>
   );
 };
 
