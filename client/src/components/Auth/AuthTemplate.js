@@ -24,11 +24,12 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 10% 20% 10%",
   },
   icon: {
-    height: theme.spacing(10),
-    width: theme.spacing(10)
+    height: theme.spacing(8),
+    width: theme.spacing(8)
   },
   text: {
-    fontSize: 42,
+    fontSize: 26,
+    fontWeight: 400,
     marginTop: "10%"
   }
 }));
