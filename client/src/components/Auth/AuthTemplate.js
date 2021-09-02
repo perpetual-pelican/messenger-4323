@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Box, Typography } from "@material-ui/core";
+import { Grid, Box, Typography, Hidden } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import signupPicture from "./signupPicture.png";
 import bubbleIcon from "./bubble.svg";
@@ -21,10 +21,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center"
   },
   bannerContent: {
-    margin: "0 10% 25% 10%",
+    margin: "0 10% 20% 10%",
+  },
+  icon: {
+    height: theme.spacing(10),
+    width: theme.spacing(10)
   },
   text: {
-    fontSize: 22,
+    fontSize: 42,
     marginTop: "10%"
   }
 }));
@@ -34,15 +38,17 @@ const AuthTemplate = (props) => {
 
   return (
     <Grid container className={classes.root}>
-      <Grid container item xs={5} className={classes.sideBanner}>
-        <Box className={classes.bannerContent}>
-          <img src={bubbleIcon} alt=""/>
-          <Typography className={classes.text}>
-            Converse with anyone with any language
-          </Typography>
-        </Box>
-      </Grid>
-      <Grid container item xs={7} justifyContent="center">
+      <Hidden xsDown >
+        <Grid container item sm={5} className={classes.sideBanner}>
+          <Box className={classes.bannerContent}>
+            <img src={bubbleIcon} alt="chat bubble icon" className={classes.icon}/>
+            <Typography className={classes.text}>
+              Converse with anyone with any language
+            </Typography>
+          </Box>
+        </Grid>
+      </Hidden>
+      <Grid container item sm={7} justifyContent="center">
         {props.children}
       </Grid>
     </Grid>
