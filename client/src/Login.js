@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   itemBox: {
-    margin: theme.spacing(3, 0, 3, 0)
+    margin: "5% 0"
   }
 }));
 

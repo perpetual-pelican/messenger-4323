@@ -4,7 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%"
+    width: "100%",
+    margin: "2% 0"
   }
 }));
 
@@ -14,7 +15,6 @@ const FormItem = (props) => {
   return (
     <FormControl className={classes.root}
       error={props.error}
-      margin="normal"
       required>
       {props.children}
     </FormControl>

@@ -5,7 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   form: {
     width: "70%",
-    marginBottom: "10%"
+    height: "65%",
+    margin: "5% 0 15% 0"
   },
   message: {
     fontSize: 26,
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "none",
     padding: theme.spacing(2, 7),
     borderRadius: theme.spacing(0.4),
-    margin: theme.spacing(4, 0)
+    margin: "6% 0"
   }
 }));
 
