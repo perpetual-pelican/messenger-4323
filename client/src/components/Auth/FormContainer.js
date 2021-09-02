@@ -3,11 +3,6 @@ import { Grid, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    justifyContent: "center",
-    alignItems: "center",
-    height: "80%"
-  },
   form: {
     width: "70%",
     marginBottom: "10%"
