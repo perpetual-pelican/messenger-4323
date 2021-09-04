@@ -1,19 +1,31 @@
-const { Op } = require("sequelize");
+const { DataTypes, Op } = require("sequelize");
 const db = require("../db");
 const Message = require("./message");
 
-const Conversation = db.define("conversation", {});
+const Conversation = db.define("conversation", {
+  userIds: {
+    type: DataTypes.JSONB,
+    allowNull: false
+  }
+});
 
-// find conversation given two user Ids
+// find conversation given two or more user Ids
+// accepts senderId as an integer and recipientIds as an array of integers
+// adds all user Ids to JSON object as keys for comparing in the query
 
-Conversation.findConversation = async function (user1Id, user2Id) {
+Conversation.findConversation = async function (senderId, recipientIds) {
+  const userIdsJSON = {};
+  userIdsJSON[senderId] = null;
+  for (const id of recipientIds) {
+    userIdsJSON[id] = null;
+  }
   const conversation = await Conversation.findOne({
     where: {
-      user1Id: {
-        [Op.or]: [user1Id, user2Id]
-      },
-      user2Id: {
-        [Op.or]: [user1Id, user2Id]
+      userIds: { 
+        [Op.and]: {
+          [Op.contains]: userIdsJSON,
+          [Op.contained]: userIdsJSON
+        }
       }
     }
   });
